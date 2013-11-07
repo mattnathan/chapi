@@ -13,4 +13,7 @@
   <packaging>pom</packaging>
   <name>chapi-map</name>
   <description>mapping parent pom</description>
+  <modules>
+    <module>chapi-map-core</module>
+  </modules>
 </project>
