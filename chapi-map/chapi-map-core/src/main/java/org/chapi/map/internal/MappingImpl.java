@@ -13,10 +13,6 @@ public abstract class MappingImpl implements Mapping {
   private final String sourcePath;
   private final MappingProjection projection;
 
-  protected MappingImpl(String sourcePath) {
-    this(sourcePath, ProjectionNotDefinedImpl.INSTANCE);
-  }
-
   protected MappingImpl(String sourcePath, MappingProjection projection) {
     this.sourcePath = checkNotNull(sourcePath);
     this.projection = checkNotNull(projection);

@@ -13,7 +13,7 @@ public class ConstantValueMappingImpl extends MappingImpl implements ConstantVal
   private final String value;
 
   public ConstantValueMappingImpl(String sourcePath, String value) {
-    super(sourcePath);
+    super(sourcePath, ProjectionNotDefinedImpl.INSTANCE);
     this.value = checkNotNull(value);
   }
 

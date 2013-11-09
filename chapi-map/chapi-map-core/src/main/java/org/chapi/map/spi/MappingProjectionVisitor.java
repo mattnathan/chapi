@@ -5,4 +5,6 @@ package org.chapi.map.spi;
  */
 public interface MappingProjectionVisitor<T> {
   T visitProjectionNotDefined();
+
+  T visit(FieldsMappingProjection fieldsMappingProjection);
 }

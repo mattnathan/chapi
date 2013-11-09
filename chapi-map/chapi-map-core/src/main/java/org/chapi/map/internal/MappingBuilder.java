@@ -21,6 +21,7 @@ public class MappingBuilder implements DataOriginMappingBuilder {
 
   private static final String NULL_CONSTANT = "Binding to a constant value is not allowed";
   private static final String ALREADY_SOURCED = "Mapping source set more than once";
+  private static final String ALREADY_PROJECTED = "Mapping projection set more than once";
   private final List<Element> mappings;
   private final int position;
   private Mapping mapping;
@@ -31,7 +32,7 @@ public class MappingBuilder implements DataOriginMappingBuilder {
     this.mappings = checkNotNull(mappings);
     // need position so we can add errors to the list and still replace the mapping instance
     this.position = mappings.size();
-    this.mapping = new UnsourcedMappingImpl(path);
+    this.mapping = new UnsourcedMappingImpl(path, ProjectionNotDefinedImpl.INSTANCE);
     this.mappings.add(position, mapping);
   }
 
@@ -45,7 +46,8 @@ public class MappingBuilder implements DataOriginMappingBuilder {
       }
 
       final UnresolvedEndpointMappingImpl unresolvedMapping =
-          new UnresolvedEndpointMappingImpl(mapping.getSourcePath(), endpointDescription);
+          new UnresolvedEndpointMappingImpl(mapping.getSourcePath(), mapping.getMappingProjection(),
+                                            endpointDescription);
       setMapping(unresolvedMapping);
       return Reflection.newProxy(endpointDescription, new InvocationHandler() {
         @Override
@@ -76,11 +78,16 @@ public class MappingBuilder implements DataOriginMappingBuilder {
 
   @Override
   public DataSourceMappingBuilder toFields(String fields) {
+    checkNotProjected();
+    checkNotSourced(); // can't project if we have a source already, part of the dsl
+    setMapping(new UnsourcedMappingImpl(mapping.getSourcePath(), new FieldsMappingProjectionImpl(fields)));
     return this;
   }
 
   @Override
   public <F, T> DataSourceMappingBuilder toProjection(Projection<F, T> projection) {
+    checkNotProjected();
+    checkNotSourced(); // can't project if we have a source already, part of the dsl
     return this;
   }
 
@@ -92,6 +99,12 @@ public class MappingBuilder implements DataOriginMappingBuilder {
   private void checkNotSourced() {
     if (!(mapping instanceof UnsourcedMappingImpl)) {
       mapper.addError(ALREADY_SOURCED);
+    }
+  }
+
+  private void checkNotProjected() {
+    if (mapping.getMappingProjection() != ProjectionNotDefinedImpl.INSTANCE) {
+      mapper.addError(ALREADY_PROJECTED);
     }
   }
 }
