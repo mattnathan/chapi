@@ -6,7 +6,7 @@ package org.chapi.map.spi;
 public interface Mapping extends Element {
   String getSourcePath();
 
-  <T> T acceptSourceVisitor(MappingSourceVisitor<T> visitor);
+  MappingProjection getMappingProjection();
 
-  <T> T acceptProjectionVisitor(MappingProjectionVisitor<T> visitor);
+  <T> T acceptSourceVisitor(MappingSourceVisitor<T> visitor);
 }
