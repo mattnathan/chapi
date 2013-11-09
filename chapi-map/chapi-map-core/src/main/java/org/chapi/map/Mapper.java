@@ -8,4 +8,6 @@ import org.chapi.map.mapper.DataOriginMappingBuilder;
 public interface Mapper {
 
   DataOriginMappingBuilder map(String path);
+
+  void addError(String message, Object... args);
 }

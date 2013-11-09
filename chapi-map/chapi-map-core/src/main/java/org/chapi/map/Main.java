@@ -51,7 +51,5 @@ public class Main {
   private static class ApiData {
     @Key
     String uri;
-
-
   }
 }
