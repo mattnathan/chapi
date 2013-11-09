@@ -7,4 +7,6 @@ public interface Mapping extends Element {
   String getSourcePath();
 
   <T> T acceptSourceVisitor(MappingSourceVisitor<T> visitor);
+
+  <T> T acceptProjectionVisitor(MappingProjectionVisitor<T> visitor);
 }
