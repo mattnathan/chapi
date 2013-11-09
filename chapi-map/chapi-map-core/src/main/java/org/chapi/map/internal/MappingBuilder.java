@@ -88,6 +88,7 @@ public class MappingBuilder implements DataOriginMappingBuilder {
   public <F, T> DataSourceMappingBuilder toProjection(Projection<F, T> projection) {
     checkNotProjected();
     checkNotSourced(); // can't project if we have a source already, part of the dsl
+    setMapping(new UnsourcedMappingImpl(mapping.getSourcePath(), new InstanceMappingProjectionImpl(projection)));
     return this;
   }
 
