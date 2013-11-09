@@ -1,6 +1,6 @@
 package org.chapi.map;
 
-import org.chapi.map.mapper.DataSourceMappingBuilder;
+import org.chapi.map.mapper.DataOriginMappingBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -29,7 +29,7 @@ public abstract class AbstractGraph implements Graph {
     return mapper;
   }
 
-  protected DataSourceMappingBuilder map(String path) {
+  protected DataOriginMappingBuilder map(String path) {
     return mapper.map(path);
   }
 }

@@ -12,10 +12,20 @@ public class Main {
     @Override
     protected void configure() {
       // map the target path /data to the result of the endpoint given by the url
-      map("/data").toEndpoint("http://example.com/myendpoint");
+      map("/data")
+              .from(TestEndpoints.class).urlShortener();
 
-      map("/user/").toEndpoint("http://users").fields("name,title,phone,address");
+      // map specific fields from a named endpoint
+      map("/user/")
+              .toFields("name,title,phone,address")
+              .from(TestEndpoints.class).urlShortener();
+
+      // map to a constant
       map("/kind").toConstant("example#kind");
     }
+  }
+
+  private static interface TestEndpoints {
+    void urlShortener();
   }
 }
