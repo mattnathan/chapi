@@ -24,4 +24,8 @@ public class RecordingMapper implements Mapper {
   public void addError(String message, Object... args) {
     elements.add(new Message(Errors.format(message, args)));
   }
+
+  List<Element> getElements() {
+    return elements;
+  }
 }

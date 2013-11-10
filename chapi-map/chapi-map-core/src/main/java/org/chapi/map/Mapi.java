@@ -1,5 +1,7 @@
 package org.chapi.map;
 
+import org.chapi.map.internal.ProjectorBuilder;
+
 import java.util.Arrays;
 
 /**
@@ -11,7 +13,9 @@ public class Mapi {
   }
 
   public static Projector createProjector(Iterable<? extends Graph> graphs) {
-    return new Projector();
+    return new ProjectorBuilder()
+        .withGraphs(graphs)
+        .build();
   }
 
   private Mapi() {
