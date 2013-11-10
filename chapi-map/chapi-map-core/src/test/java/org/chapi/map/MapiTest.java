@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import org.chapi.map.spi.ConstantValueMapping;
 import org.chapi.map.spi.DefaultMappingSourceVisitor;
 import org.chapi.map.spi.Mapping;
+import org.chapi.map.spi.Message;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Map;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for different types of graph mappings.
@@ -43,6 +45,24 @@ public class MapiTest {
       }
     });
     assertEquals(ImmutableList.<Mapping>of(), projector.getAllMappings());
+  }
+
+  @Test
+  public void testExceptionWhenNoSource() throws Exception {
+    try {
+      Mapi.createProjector(new AbstractGraph() {
+        @Override
+        protected void configure() {
+          map("/without/source");
+        }
+      });
+      fail("Expecting CreationException");
+    } catch (CreationException e) {
+      ImmutableList<Message> messages = e.getMessages();
+      assertEquals("No source defined for target path /without/source." +
+                   " Did you forget to map to something? Consider toConstant or toEndpoint",
+                   messages.get(0).getMessage());
+    }
   }
 
   @Test
@@ -75,7 +95,7 @@ public class MapiTest {
 
     private List<ConstantValueMapping> collectConstantMappings(Projector projector) {
       List<ConstantValueMapping> constantMappings = Lists.newArrayList();
-      ConstantMappingPredicate visitor = new ConstantMappingPredicate();
+      ConstantMappingExtractor visitor = new ConstantMappingExtractor();
       for (Mapping mapping : projector.getAllMappings()) {
         ConstantValueMapping valueMapping = mapping.acceptSourceVisitor(visitor);
         if (valueMapping != null) {
@@ -97,7 +117,7 @@ public class MapiTest {
       }
     }
 
-    private static class ConstantMappingPredicate extends DefaultMappingSourceVisitor<ConstantValueMapping> {
+    private static class ConstantMappingExtractor extends DefaultMappingSourceVisitor<ConstantValueMapping> {
       @Override
       public ConstantValueMapping visit(ConstantValueMapping constantValueMapping) {
         return constantValueMapping;
