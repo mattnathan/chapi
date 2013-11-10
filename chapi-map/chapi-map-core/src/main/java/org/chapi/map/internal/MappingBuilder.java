@@ -67,7 +67,7 @@ public class MappingBuilder implements DataOriginMappingBuilder {
   }
 
   @Override
-  public void toConstant(String constant) {
+  public void fromConstant(String constant) {
     checkNotSourced();
     if (constant == null) {
       mapper.addError(NULL_CONSTANT);

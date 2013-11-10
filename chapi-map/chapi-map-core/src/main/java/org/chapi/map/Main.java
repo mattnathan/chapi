@@ -39,7 +39,7 @@ public class Main {
 
       // map to a constant
       map("/kind")
-          .toConstant("example#kind");
+          .fromConstant("example#kind");
     }
   }
 

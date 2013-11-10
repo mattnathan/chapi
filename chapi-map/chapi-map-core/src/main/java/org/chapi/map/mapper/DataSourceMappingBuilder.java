@@ -6,5 +6,5 @@ package org.chapi.map.mapper;
 public interface DataSourceMappingBuilder {
   <T> T from(Class<T> endpointDescription);
 
-  void toConstant(String constant);
+  void fromConstant(String constant);
 }

@@ -19,7 +19,7 @@ public class Errors {
 
   public void noSourceDefined(String target) {
     addMessage("No source defined for target path %s." +
-               " Did you forget to map to something? Consider toConstant or toEndpoint",
+               " Did you forget to map to something? Consider fromConstant or from",
                target);
   }
 

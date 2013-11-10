@@ -60,7 +60,7 @@ public class MapiTest {
     } catch (CreationException e) {
       ImmutableList<Message> messages = e.getMessages();
       assertEquals("No source defined for target path /without/source." +
-                   " Did you forget to map to something? Consider toConstant or toEndpoint",
+                   " Did you forget to map to something? Consider fromConstant or from",
                    messages.get(0).getMessage());
     }
   }
@@ -87,9 +87,9 @@ public class MapiTest {
 
     @Override
     protected void configure() {
-      map("/constants/string").toConstant("CONSTANT_STRING");
+      map("/constants/string").fromConstant("CONSTANT_STRING");
       expectedMappings.put("/constants/string", new Expected("CONSTANT_STRING"));
-      map("/constants/string2").toConstant("CONSTANT_STRING2");
+      map("/constants/string2").fromConstant("CONSTANT_STRING2");
       expectedMappings.put("/constants/string2", new Expected("CONSTANT_STRING2"));
     }
 
