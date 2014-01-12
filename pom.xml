@@ -14,6 +14,7 @@
 
   <modules>
     <module>chapi-map</module>
+    <module>samples</module>
   </modules>
 
   <properties>
@@ -41,11 +42,21 @@
         <artifactId>guice-assistedinject</artifactId>
         <version>${guice.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-servlet</artifactId>
+        <version>${guice.version}</version>
+      </dependency>
 
       <!-- http libs -->
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client</artifactId>
+        <version>1.17.0-rc</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson</artifactId>
         <version>1.17.0-rc</version>
       </dependency>
 
